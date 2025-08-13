@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title> Claw Machine </title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel= "stylesheet">
+  <style>
+    body {
+  background: linear-gradient(to bottom, #ffe0ef, #f4f4f4);
+  font-family: 'Pacifico', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-attachment: fixed; 
+}
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  font-family: 'Pacifico', sans-serif;
+  color: #ff69b4;
+  font-size: 64px;
+  text-shadow: 0 0 2px #fff, 0 0 4px #ff69b4;
+}
+
+#controls {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#game-container {
+  margin: 30px auto;
+  width: 720px;
+  height: 800px;
+  background: linear-gradient(to bottom, #ffe0ef, #d8f5ff);
+  border: 6px solid #ff69b4;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+#claw {
+  width: 120px;
+  height: 220px;
+  background: url('https://i.postimg.cc/Gm3rNGv8/Grip-20250730152551.png') no-repeat center/contain;
+  position: absolute;
+  top: 0;
+  left: 300px;
+  transition: top 0.5s ease, height 0.5s ease;
+  z-index: 2;
+  
+}
+
+.toy {
+  width: 200px;
+  height: 130px;
+  position: absolute;
+  bottom: 10px;
+  transition: bottom 0.5s;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.toy1 { left: 5px; background-image: url('https://i.postimg.cc/VNQpXJX6/Untitled153-20250730161617.png'); }
+.toy2 { left: 130px; background-image: url('https://i.postimg.cc/VNQpXJX6/Untitled153-20250730161617.png'); }
+.toy3 { left: 270px; background-image: url('https://i.postimg.cc/VNQpXJX6/Untitled153-20250730161617.png'); }
+.toy4 { left: 400px; background-image: url('https://i.postimg.cc/VNQpXJX6/Untitled153-20250730161617.png'); }
+.toy5 { left: 530px; background-image: url('https://i.postimg.cc/VNQpXJX6/Untitled153-20250730161617.png'); }
+
+button {
+  font-family: 'Pacifico', sans-serif;
+  padding: 20px 28px;
+  margin: 5px;
+  font-size: 20px;
+  background: #ffd1dc;
+  border: 2px solid #ff69b4;
+  border-radius: 10px;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background: #ff69b4;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+#message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 16px 24px;
+  border: 2px solid #ff69b4;
+  border-radius: 12px;
+  font-size: 20px;
+  color: #ff69b4;
+  opacity: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.show {
+  animation: fade 2s ease-out forwards;
+}
+
+@keyframes fade {
+  0% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+#quiz-box {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border: 2px solid #ff69b4;
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: none;
+  z-index: 11;
+}
+
+#quiz-box p {
+  font-size: 18px;
+  color: #ff69b4;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+#quiz-box input {
+  width: 95%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+#quiz-box button {
+  background: #ff69b4;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#quiz-box button:hover {
+  background: #ff85c1;
+}
+
+    </style>
+    </head>
+<body>
+  <h1>Claw Machine!!!</h1>
+  <div id="game-container">
+    <div id="claw"></div>
+    <div class="toy toy1"></div>
+    <div class="toy toy2"></div>
+    <div class="toy toy3"></div>
+    <div class="toy toy4"></div>
+    <div class="toy toy5"></div>
+    <div id="message">wehehehe</div>
+
+    <div id="quiz-box">
+      <p id="quiz-question"></p>
+      <input type="text" id="quiz-answer" placeholder="Trả lời ii...">
+      <br/>
+      <button onclick="submitAnswer()">Check check!!</button>
+    </div>
+  </div>
+
+  <div id="controls">
+  <button onclick="moveClaw(-20)"><</button>
+  <button onclick="moveClaw(20)">></button>
+  <button onclick="grabToy()">Gắp🕹️</button>
+  <button onclick="resetGame()">Thử lại</button>
+  </div>
+ <script>
+  const claw = document.getElementById('claw');
+  const toys = document.querySelectorAll('.toy');
+  const message = document.getElementById('message');
+  const quizBox = document.getElementById('quiz-box');
+  const questionElem = document.getElementById('quiz-question');
+  const answerInput = document.getElementById('quiz-answer');
+
+  let clawX = 300;
+  let isGrabbing = false;
+  let currentAnswer = "";
+  let remainingQuizzes = [];
+
+  const messages = [
+    "Thế cũng gắp được",
+    "Cũng giỏi",
+    "Có kĩ năng đấy",
+    "Xếc xi thế",
+    "Uầy",
+    "Từ từ xem lào",
+    "ko trượt luôn mà",
+    "Xạ thủ à??",
+    "Tay khéo thế"
+  ];
+
+  const quizData = [
+    { question: "Anh thích nghệ sĩ nào?", answer: "Low G" },
+    { question: "Anh thường làm gì nhiều nhất?", answer: "chơi game" },
+    { question: "Sở thích yêu thích của anh là gì?", answer: "Gundam" },
+    { question: "Màu anh thích nhất là gì?", answer: "đen" },
+    { question: "Anh thích làm gì nhất nếu ra bên ngoài?", answer: "ăn" },
+    { question: "Anh tỏ tình lần đầu ngày nào?", answer: "23/4" }
+  ];
+
+  function moveClaw(dx) {
+    if (isGrabbing) return;
+    clawX += dx;
+    clawX = Math.max(0, Math.min(640, clawX));
+    claw.style.left = clawX + 'px';
+  }
+
+  function grabToy() {
+    if (isGrabbing) return;
+    isGrabbing = true;
+    claw.style.top = '400px';
+    claw.style.height = '500px';
+
+    setTimeout(() => {
+      let success = false;
+
+      toys.forEach(toy => {
+        const toyLeft = parseInt(window.getComputedStyle(toy).left);
+        const toyBottom = parseInt(window.getComputedStyle(toy).bottom);
+        if (Math.abs(toyLeft - clawX) < 60 && toyBottom === 10) {
+          toy.style.bottom = '300px';
+          success = true;
+        }
+      });
+
+      if (success) {
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        showMessage(randomMessage);
+        setTimeout(() => {
+          showQuiz();
+        }, 1200);
+      }
+
+      claw.style.top = '0px';
+      claw.style.height = '220px';
+      setTimeout(() => {
+        isGrabbing = false;
+      }, 500);
+    }, 600);
+  }
+
+  function showMessage(text) {
+    message.innerText = text;
+    message.classList.remove('show');
+    void message.offsetWidth;
+    message.classList.add('show');
+    setTimeout(() => {
+      message.classList.remove('show');
+    }, 2000);
+  }
+
+  function showQuiz() {
+   
+    if (remainingQuizzes.length === 0) {
+      remainingQuizzes = [...quizData];
+    }
+
+    const index = Math.floor(Math.random() * remainingQuizzes.length);
+    const quiz = remainingQuizzes.splice(index, 1)[0];
+
+    questionElem.innerText = quiz.question;
+    currentAnswer = quiz.answer.toLowerCase().trim();
+    answerInput.value = '';
+    quizBox.style.display = 'block';
+  }
+
+  function submitAnswer() {
+    const userAnswer = answerInput.value.toLowerCase().trim();
+    if (userAnswer === currentAnswer) {
+      showMessage("Ghê, cũng biết");
+      quizBox.style.display = 'none';
+    } else {
+      showMessage("-99999 aura");
+    }
+  }
+
+  function resetGame() {
+    toys.forEach(toy => {
+      if (parseInt(toy.style.bottom) > 10) {
+        toy.remove(); 
+      } else {
+        toy.style.bottom = '10px'; 
+      }
+    });
+
+    quizBox.style.display = 'none';
+    claw.style.left = '320px';
+    clawX = 320;
+    showMessage("Tiếp.");
+  }
+</script>
+</body>
+</html>
